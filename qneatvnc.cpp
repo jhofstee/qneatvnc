@@ -22,6 +22,23 @@ private:
 	QImage mImg;
 };
 
+static void freeFrameBuffer(struct nvnc_fb *fb, void *context)
+{
+	Q_UNUSED(fb);
+
+	QNVncFb *qFb = static_cast<QNVncFb *>(context);
+	delete qFb;
+}
+
+QNVncFb::QNVncFb(QImage &img)
+{
+	mImg = img;
+	mFb = nvnc_fb_from_buffer((void *) mImg.constScanLine(0), img.width(),
+							  img.height(), drmFormat(img.format()),
+							  img.width());
+	nvnc_fb_set_release_fn(mFb, freeFrameBuffer, this);
+}
+
 // A client connected to the VNC server, not a VNC client app.
 class QNVncServerClient {
 public:
@@ -39,14 +56,6 @@ private:
 	struct nvnc_client *mClient;
 };
 
-static void freeFrameBuffer(struct nvnc_fb *fb, void *context)
-{
-	Q_UNUSED(fb);
-
-	QNVncFb *qFb = static_cast<QNVncFb *>(context);
-	delete qFb;
-}
-
 static uint32_t drmFormat(QImage::Format format)
 {
 	switch (format) {
@@ -56,15 +65,6 @@ static uint32_t drmFormat(QImage::Format format)
 		qFatal("Unsupported image format!!!");
 		return DRM_FORMAT_INVALID;
 	}
-}
-
-QNVncFb::QNVncFb(QImage &img)
-{
-	mImg = img;
-	mFb = nvnc_fb_from_buffer((void *) mImg.constScanLine(0), img.width(),
-							  img.height(), drmFormat(img.format()),
-							  img.width());
-	nvnc_fb_set_release_fn(mFb, freeFrameBuffer, this);
 }
 
 QNVncDisplay::QNVncDisplay(QObject *parent) :
