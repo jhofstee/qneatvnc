@@ -1,6 +1,6 @@
 #include <qneatvnc/qaml.hpp>
 
-// https://github.com/any1/aml Andri's mainloop running form the Qt mainloop.
+// https://github.com/any1/aml Andri's mainloop running from the Qt mainloop.
 
 QAml::QAml(QObject *parent) :
 	QObject(parent)
