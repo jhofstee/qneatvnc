@@ -1,6 +1,6 @@
 #define XK_MISCELLANY
 
-#include <qneatvnc/keys.hpp>
+#include "keys.hpp"
 #include <X11/keysymdef.h>
 
 Qt::Key qtKeyFromX11(int x11key, QString &str)

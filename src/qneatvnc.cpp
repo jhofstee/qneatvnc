@@ -8,7 +8,7 @@
 #include <QPaintEvent>
 
 #include <qneatvnc/qneatvnc.hpp>
-#include <qneatvnc/keys.hpp>
+#include "keys.hpp"
 
 static uint32_t drmFormat(QImage::Format format)
 {
