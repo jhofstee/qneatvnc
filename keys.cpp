@@ -7,13 +7,13 @@ Qt::Key qtKeyFromX11(int x11key, QString &str)
 {
 	// latin-1
 	if (x11key >= 0x20 && x11key <= 0xff) {
-		str = QString(x11key);
+		str = QString(QChar(x11key));
 		return Qt::Key_unknown;
 	}
 
 	// unicode
 	if (x11key >= 0x01000000) {
-		uint32_t val = x11key - 0x01000000;
+		char32_t val = x11key - 0x01000000;
 		str = QString::fromUcs4(&val, 1);
 		return Qt::Key_unknown;
 	}
