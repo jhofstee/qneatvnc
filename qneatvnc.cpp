@@ -10,6 +10,17 @@
 #include <qneatvnc/qneatvnc.hpp>
 #include <qneatvnc/keys.hpp>
 
+static uint32_t drmFormat(QImage::Format format)
+{
+	switch (format) {
+	case QImage::Format_ARGB32:
+		return DRM_FORMAT_ARGB8888;
+	default:
+		qFatal("Unsupported image format!!!");
+		return DRM_FORMAT_INVALID;
+	}
+}
+
 class QNVncFb
 {
 public:
@@ -55,17 +66,6 @@ private:
 	Qt::MouseButtons mMouseButtons = Qt::NoButton;
 	struct nvnc_client *mClient;
 };
-
-static uint32_t drmFormat(QImage::Format format)
-{
-	switch (format) {
-	case QImage::Format_ARGB32:
-		return DRM_FORMAT_ARGB8888;
-	default:
-		qFatal("Unsupported image format!!!");
-		return DRM_FORMAT_INVALID;
-	}
-}
 
 QNVncDisplay::QNVncDisplay(QObject *parent) :
 	QObject(parent)
