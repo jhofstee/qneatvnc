@@ -9,6 +9,8 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 	QAml aml;
 
+	QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
+
 	QQuickWidget *view = new QQuickWidget;
 	view->setSource(u"qrc:/qt6qneatvnc/main.qml"_qs);
 	view->show();
