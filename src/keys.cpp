@@ -13,7 +13,11 @@ Qt::Key qtKeyFromX11(int x11key, QString &str)
 
 	// unicode
 	if (x11key >= 0x01000000) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+		uint32_t val = x11key - 0x01000000;
+#else
 		char32_t val = x11key - 0x01000000;
+#endif
 		str = QString::fromUcs4(&val, 1);
 		return Qt::Key_unknown;
 	}
