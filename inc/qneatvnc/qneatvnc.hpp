@@ -2,7 +2,6 @@
 
 extern "C" {
 	#include <neatvnc.h>
-
 }
 
 #include <QEvent>
