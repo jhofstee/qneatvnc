@@ -75,6 +75,17 @@ private:
 	QImage::Format mFormat;
 };
 
+class QNVncServerInitFailed : public std::exception
+{
+public:
+	explicit QNVncServerInitFailed() : std::exception() {}
+
+	const char *what() const noexcept
+	{
+		return "VNC Server init failed";
+	}
+};
+
 class QNVncServer : public QObject
 {
 Q_OBJECT

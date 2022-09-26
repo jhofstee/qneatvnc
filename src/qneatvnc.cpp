@@ -257,6 +257,11 @@ QNVncServer::QNVncServer(QObject *parent) :
 {
 	mServer = nvnc_open("127.0.0.1", 5900);
 
+	if (!mServer) {
+		qCritical() << "Couldn't create a VNC server";
+		throw QNVncServerInitFailed();
+	}
+
 	nvnc_set_userdata(mServer, this, NULL);
 	nvnc_set_new_client_fn(mServer, onNvncNewClient);
 	nvnc_set_pointer_fn(mServer, onNvncPointerEvent);
