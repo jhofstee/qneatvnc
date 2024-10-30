@@ -56,7 +56,7 @@ signals:
 	void paintEvent();
 
 protected:
-	virtual bool eventFilter(QObject *watched, QEvent *e);
+	bool eventFilter(QObject *watched, QEvent *e) override;
 	void feedFrameBuffer(QImage &img, QList<QRect> damage = QList<QRect>());
 	void handleKeyEvent(QNVncServerClient *client, Qt::Key key, QString const &str, bool pressed) override;
 	void handlePointerEvent(QNVncServerClient *client, QPoint &pos, Qt::MouseButton button, QEvent::Type type) override;
