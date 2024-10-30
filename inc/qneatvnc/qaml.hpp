@@ -1,5 +1,7 @@
 #pragma once
 
+#define AML_UNSTABLE_API    1
+
 #include <QObject>
 #include <QSocketNotifier>
 
