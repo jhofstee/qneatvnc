@@ -62,12 +62,14 @@ protected:
 	void handlePointerEvent(QNVncServerClient *client, QPoint &pos, Qt::MouseButton button, QEvent::Type type) override;
 
 	void setup() override;
-	void idle() override;
+	void idle() override { doIdle(); }
 
 private slots:
 	void updateFrameBuffer();
 
 private:
+	void doIdle();
+
 	QWidget *mWidget;
 	QList<QRect> mDamaged;
 	bool mRendering = false;

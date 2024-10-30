@@ -90,7 +90,7 @@ QNVncDisplayWidget::QNVncDisplayWidget(QNVncServer *vnc, QWidget *widget, QImage
 
 	vnc->setDisplay(this);
 
-	idle();
+	doIdle();
 }
 
 void QNVncDisplayWidget::setup()
@@ -99,7 +99,7 @@ void QNVncDisplayWidget::setup()
 	updateFrameBuffer();
 }
 
-void QNVncDisplayWidget::idle()
+void QNVncDisplayWidget::doIdle()
 {
 	QImage dummy(1, 1, mFormat);
 	dummy.fill(Qt::gray);
