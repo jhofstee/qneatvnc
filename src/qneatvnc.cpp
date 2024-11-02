@@ -154,7 +154,8 @@ bool QNVncDisplayWidget::eventFilter(QObject *watched, QEvent *e)
 	if (e->type() == QEvent::Paint && !mRendering) {
 		QPaintEvent *paintArgs = static_cast<QPaintEvent *>(e);
 		mDamaged.append(paintArgs->rect());
-		emit paintEvent();
+		if (mDamaged.count() == 1)
+			emit paintEvent();
 	}
 
 	return false;
