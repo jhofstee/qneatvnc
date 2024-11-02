@@ -115,8 +115,8 @@ void QNVncDisplayWidget::feedFrameBuffer(QImage &img, QList<QRect> damage)
 	for (QRect &rec: damage) {
 		boxes[n].x1 = rec.x();
 		boxes[n].y1 = rec.y();
-		boxes[n].x2 = rec.right();
-		boxes[n].y2 = rec.bottom();
+		boxes[n].x2 = rec.x() + rec.width();
+		boxes[n].y2 = rec.y() + rec.height();
 		n++;
 	}
 
