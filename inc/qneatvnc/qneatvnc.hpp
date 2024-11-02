@@ -1,7 +1,9 @@
 ﻿#pragma once
 
 extern "C" {
+#define restrict __restrict
 	#include <neatvnc.h>
+#undef restrict
 }
 
 #include <QEvent>
