@@ -1,4 +1,5 @@
 #define XK_MISCELLANY
+#define XK_LATIN1
 
 #include "keys.hpp"
 #include <X11/keysymdef.h>
@@ -8,6 +9,12 @@ Qt::Key qtKeyFromX11(int x11key, QString &str)
 	// latin-1
 	if (x11key >= 0x20 && x11key <= 0xff) {
 		str = QString(QChar(x11key));
+
+		if (x11key >= 'a' && x11key <= 'z')
+			return static_cast<Qt::Key>(Qt::Key_A + x11key - 'a');
+		if (x11key >= ' ' && x11key <= '~')
+			return static_cast<Qt::Key>(Qt::Key_Space + x11key - ' ');
+
 		return Qt::Key_unknown;
 	}
 
