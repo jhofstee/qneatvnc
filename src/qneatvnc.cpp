@@ -253,10 +253,10 @@ static void onNvncNewClient(struct nvnc_client *client)
 
 }
 
-QNVncServer::QNVncServer(QObject *parent) :
+QNVncServer::QNVncServer(const QString &address, int port, QObject *parent) :
 	QObject(parent)
 {
-	mServer = nvnc_open("0.0.0.0", 5900);
+	mServer = nvnc_open(address.toUtf8(), port);
 
 	if (!mServer) {
 		qCritical() << "Couldn't create a VNC server";

@@ -95,7 +95,7 @@ class QNVncServer : public QObject
 Q_OBJECT
 
 public:
-	QNVncServer(QObject *parent = 0);
+	QNVncServer(QString const &address, int port = 5900, QObject *parent = 0);
 
 	struct nvnc *server() {
 		return mServer;

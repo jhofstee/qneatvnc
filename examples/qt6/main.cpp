@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 	view->setSource(u"qrc:/qt6qneatvnc/main.qml"_qs);
 	view->show();
 
-	QNVncServer server;
+	QNVncServer server("0.0.0.0");
 	QNVncDisplayWidget display(&server, view);
 	aml.start();
 

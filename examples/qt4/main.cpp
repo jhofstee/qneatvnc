@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 	view->setSource(QString(_DEFINE_STR(PWD)) + QDir::separator() + "main.qml");
 	view->show();
 
-	QNVncServer server;
+	QNVncServer server("0.0.0.0");
 	// NOTE: the viewport is needed here..
 	QNVncDisplayWidget display(&server, view->viewport());
 	aml.start();
