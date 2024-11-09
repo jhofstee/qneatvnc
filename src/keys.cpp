@@ -1,6 +1,7 @@
 #define XK_MISCELLANY
 #define XK_LATIN1
 
+#include <cstdint>
 #include "keys.hpp"
 #include <X11/keysymdef.h>
 
