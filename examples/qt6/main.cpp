@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
 
 	QNVncServer server("0.0.0.0");
 	QNVncDisplayWidget display(&server, view);
+	Q_UNUSED(display);
 	aml.start();
 
 	return app.exec();

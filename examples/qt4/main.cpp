@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 	QNVncServer server("0.0.0.0");
 	// NOTE: the viewport is needed here..
 	QNVncDisplayWidget display(&server, view->viewport());
+	Q_UNUSED(display);
 	aml.start();
 
 	return app.exec();
