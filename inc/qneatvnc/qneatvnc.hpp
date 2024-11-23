@@ -84,7 +84,7 @@ class QNVncServerInitFailed : public std::exception
 public:
 	explicit QNVncServerInitFailed() : std::exception() {}
 
-	const char *what() const noexcept
+	const char *what() const noexcept override
 	{
 		return "VNC Server init failed";
 	}
