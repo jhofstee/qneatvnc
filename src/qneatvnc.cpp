@@ -253,11 +253,10 @@ static void onNvncNewClient(struct nvnc_client *client)
 
 }
 
-QNVncServer::QNVncServer(const QString &address, int port, QObject *parent) :
+QNVncServer::QNVncServer(QObject *parent) :
 	QObject(parent)
 {
-	mServer = nvnc_open(address.toUtf8(), port);
-
+	mServer = nvnc_new();
 	if (!mServer) {
 		qCritical() << "Couldn't create a VNC server";
 		throw QNVncServerInitFailed();
@@ -269,9 +268,25 @@ QNVncServer::QNVncServer(const QString &address, int port, QObject *parent) :
 	nvnc_set_key_fn(mServer, onNvncKeyEvent);
 }
 
+void QNVncServer::listen(const QString &address, int port)
+{
+	if (nvnc_listen_tcp(mServer, address.toUtf8(), port, NVNC_STREAM_NORMAL) < 0) {
+		qCritical() << "Couldn't not listen to" << address << port;
+		throw QNVncServerInitFailed();
+	}
+}
+
+void QNVncServer::ws_listen(const QString &address, int port)
+{
+	if (nvnc_listen_tcp(mServer, address.toUtf8(), port, NVNC_STREAM_WEBSOCKET) < 0) {
+		qCritical() << "Couldn't not listen to ws" << address << port;
+		throw QNVncServerInitFailed();
+	}
+}
+
 QNVncServer::~QNVncServer()
 {
-	nvnc_close(mServer);
+	nvnc_del(mServer);
 }
 
 void QNVncServer::setDisplay(QNVncDisplay *display)
