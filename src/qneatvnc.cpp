@@ -93,6 +93,19 @@ QNVncDisplayWidget::QNVncDisplayWidget(QNVncServer *vnc, QWidget *widget, QImage
 	doIdle();
 }
 
+bool QNVncDisplayWidget::setTransform(nvnc_transform transform)
+{
+	switch (transform) {
+	case NVNC_TRANSFORM_NORMAL:
+	case NVNC_TRANSFORM_270:
+		mTransform = transform;
+		return true;
+	default:
+		qCritical() << "Unsupported transform" << transform;
+		return false;
+	}
+}
+
 void QNVncDisplayWidget::setup()
 {
 	mWidget->installEventFilter(this);
@@ -127,6 +140,8 @@ void QNVncDisplayWidget::feedFrameBuffer(QImage &img, QList<QRect> damage)
 		pixman_region_init_rects(&pixmanDamage, boxes, n);
 	else
 		pixman_region_init_rect(&pixmanDamage, 0, 0, img.width(), img.height());
+	if (mTransform != NVNC_TRANSFORM_NORMAL)
+		nvnc_fb_set_transform(qFb->fb(), mTransform);
 	nvnc_display_feed_buffer(mDisplay, qFb->fb(), &pixmanDamage);
 	pixman_region_fini(&pixmanDamage);
 }
@@ -142,6 +157,9 @@ void QNVncDisplayWidget::handleKeyEvent(QNVncServerClient *client, Qt::Key key, 
 
 void QNVncDisplayWidget::handlePointerEvent(QNVncServerClient *client, QPoint &pos, Qt::MouseButton button, QEvent::Type type)
 {
+	if (mTransform == NVNC_TRANSFORM_270)
+		pos = QPoint(mWidget->width() - pos.ry(), pos.rx());
+
 	QMouseEvent event = QMouseEvent(type, pos, mWidget->mapToGlobal(pos),
 									button, client->mouseButtons(), Qt::NoModifier);
 	QApplication::sendEvent(mWidget, &event);
@@ -250,7 +268,6 @@ static void onNvncNewClient(struct nvnc_client *client)
 	struct nvnc *server = nvnc_client_get_server(client);
 	QNVncServer *qServer = static_cast<QNVncServer *>(nvnc_get_userdata(server));
 	qServer->addClient(qClient);
-
 }
 
 QNVncServer::QNVncServer(QObject *parent) :

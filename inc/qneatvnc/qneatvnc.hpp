@@ -53,6 +53,7 @@ public:
 					   QObject *parent = 0);
 
 	QWidget *widget() { return mWidget; }
+	bool setTransform(enum nvnc_transform transform);
 
 signals:
 	void paintEvent();
@@ -77,6 +78,7 @@ private:
 	bool mRendering = false;
 	QNVncServer *mServer;
 	QImage::Format mFormat;
+	enum nvnc_transform mTransform = NVNC_TRANSFORM_NORMAL;
 };
 
 class QNVncServerInitFailed : public std::exception
