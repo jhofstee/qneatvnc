@@ -10,6 +10,8 @@
 #include <qneatvnc/qneatvnc.hpp>
 #include "keys.hpp"
 
+#include <application.hpp>
+
 static uint32_t drmFormat(QImage::Format format)
 {
 	switch (format) {
@@ -152,7 +154,15 @@ void QNVncDisplayWidget::handleKeyEvent(QNVncServerClient *client, Qt::Key key, 
 
 	QEvent::Type type = (pressed ? QEvent::KeyPress : QEvent::KeyRelease);
 	QKeyEvent event = QKeyEvent(type, key, Qt::NoModifier, str);
+	QWidget *oldFocus = QApplication::focusWidget();
+
+	if (oldFocus != mWidget)
+		mWidget->setFocus();
+
 	qApp->sendEvent(mWidget, &event);
+
+	if (oldFocus && oldFocus != mWidget)
+		oldFocus->setFocus();
 }
 
 void QNVncDisplayWidget::handlePointerEvent(QNVncServerClient *client, QPoint &pos, Qt::MouseButton button, QEvent::Type type)
