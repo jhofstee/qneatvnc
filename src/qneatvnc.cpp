@@ -145,6 +145,7 @@ void QNVncDisplayWidget::feedFrameBuffer(QImage &img, QList<QRect> damage)
 	if (mTransform != NVNC_TRANSFORM_NORMAL)
 		nvnc_fb_set_transform(qFb->fb(), mTransform);
 	nvnc_display_feed_buffer(mDisplay, qFb->fb(), &pixmanDamage);
+	nvnc_fb_unref(qFb->fb());
 	pixman_region_fini(&pixmanDamage);
 }
 
